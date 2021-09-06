@@ -218,7 +218,6 @@
     <Compile Include="BOT\Qiwi\summ.cs" />
     <Compile Include="BOT\Qiwi\total.cs" />
     <Compile Include="BOT\Qiwi\view.cs" />
-    <Compile Include="BOT\Qiwi\Work\Sender.cs" />
     <Compile Include="BOT\Work\Account\AccountManager.cs" />
     <Compile Include="BOT\Work\Payment\GetPaymentCode.cs" />
     <Compile Include="BOT\Work\Payment\GetUrlPay.cs" />
@@ -299,6 +298,7 @@
     <Content Include="Views\Home\AddAccounts.cshtml" />
     <Content Include="Views\Home\TakenAccounts.cshtml" />
     <Content Include="Views\Home\AllAccounts.cshtml" />
+    <Content Include="Views\Home\Account.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

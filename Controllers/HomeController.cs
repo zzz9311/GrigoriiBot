@@ -7,6 +7,7 @@ using GrigoriiBot.Models.BOT.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -99,11 +100,11 @@ namespace GrigoriiBot.Controllers
         public string AddAccounts(string accounts)
         {
             List<AccountsModel> Accounts = new List<AccountsModel>();
-            foreach(var el in accounts.Split('\n'))
+            foreach (var el in accounts.Split('\n'))
             {
                 var Login = el.Split(':')[0];
                 var Pass = el.Split(':')[1];
-                Accounts.Add(new AccountsModel() { GetDate = DateTime.MaxValue, Login= Login , Used=false, User=null, Password=Pass, PassingRequest=false});
+                Accounts.Add(new AccountsModel() { GetDate = DateTime.MaxValue, Login = Login, Used = false, User = null, Password = Pass, PassingRequest = false });
             }
             AccountManager.AddAccounts(Accounts);
             return BuildResultString((true, $"{Accounts.Count} Аккаунтов было добавлено"));
@@ -127,7 +128,57 @@ namespace GrigoriiBot.Controllers
         public ActionResult NotTakenAccounts()
         {
             List<AccountsModel> Accounts = AccountManager.GetAll(taken: false);
-            return View("AllAccounts",Accounts);
+            return View("AllAccounts", Accounts);
+        }
+
+        [HttpGet]
+        public ActionResult Account(int id)
+        {
+            AccountsModel Account = AccountManager.Get(id);
+            if (Account is null)
+            {
+                return HttpNotFound();
+            }
+            return View(Account);
+        }
+
+        [HttpPost]
+        public string Account(AccountsModel model)
+        {
+            using (BotContext db = new BotContext())
+            {
+                try
+                {
+                    var Account = db.Accounts.Where(i => i.Id == model.Id).FirstOrDefault();
+                    Account.Login = model.Login;
+                    Account.PassingRequest = model.PassingRequest;
+                    Account.Password = model.Password;
+                    Account.Used = model.Used;
+                    Account.GetDate = model.GetDate.Year == DateTime.MinValue.Year ? DateTime.MaxValue : model.GetDate;
+                    if(model.User!=null)
+                    {
+                        if(model.User.TId!=0)
+                        {
+                            var User = _UserManager.GetUserByTID(model.User.TId);
+                            if (User != null)
+                            {
+                                db.Users.Attach(User);
+                                Account.User = User;
+                            }
+                        }
+                        else
+                        {
+                            Account.User = null;
+                        }
+                    }
+                    db.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    return ex.ToString();
+                }
+            }
+            return "OK";
         }
     }
 }

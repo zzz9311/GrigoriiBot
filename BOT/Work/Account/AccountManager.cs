@@ -64,7 +64,15 @@ namespace GrigoriiBot.BOT.Work
         {
             using(BotContext db = new BotContext())
             {
-                return db.Accounts.Where(i=>i.Used == taken).ToList();
+                return db.Accounts.Include("User").Where(i=>i.Used == taken).ToList();
+            }
+        }
+
+        public static AccountsModel Get(int id)
+        {
+            using (BotContext db = new BotContext())
+            {
+                return db.Accounts.Include("User").Where(i => i.Id == id).FirstOrDefault();
             }
         }
 
@@ -72,7 +80,7 @@ namespace GrigoriiBot.BOT.Work
         {
             using (BotContext db = new BotContext())
             {
-                return db.Accounts.ToList();
+                return db.Accounts.Include("User").ToList();
             }
         }
     }

@@ -27,7 +27,7 @@
                 <td>@(el.Used ? "Использован":"Не использован")</td>
                 <td>@(el.GetDate.Year == DateTime.MaxValue.Year ? "":el.GetDate.ToString())</td>
                 <td>@(el.User == null ? "":el.User.TId.ToString())</td>
-                <td></td>
+                <td><a href="@Url.Action("Account", "home", new { Id= @el.Id })">Карточка</a></td>
             </tr>
         }
 

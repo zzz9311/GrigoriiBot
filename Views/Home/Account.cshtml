@@ -1,0 +1,58 @@
+﻿@model GrigoriiBot.BOT.Models.AccountsModel
+
+@{
+    ViewBag.Title = "Карточка аккаунта";
+}
+
+<h2>Редактирования аккаунта</h2>
+<br />
+
+@using (Ajax.BeginForm("Account", new AjaxOptions { UpdateTargetId = "Result" }))
+{
+    <input type="hidden" name="PassingRequest" value="@Model.PassingRequest" />
+    <input type="hidden" name="Id" value="@Model.Id" />
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-md-10">
+                <label for="formGroupExampleInput">Логин</label>
+                <input type="text" class="form-control" value="@Model.Login" name="Login" placeholder="">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <label for="formGroupExampleInput">Пароль</label>
+                <input type="text" class="form-control" value="@Model.Password" name="Password" placeholder="">
+            </div>
+        </div>
+        @if (Model.Used)
+        {
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label for="formGroupExampleInput">Дата получения</label>
+                    <input type="datetime" class="form-control" value="@Model.GetDate" name="GetDate" placeholder="">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label for="formGroupExampleInput">TId получателя</label>
+                    <input type="datetime" class="form-control" value="@(Model.User?.TId)" name="User.TId" placeholder="">
+                </div>
+            </div>
+        }
+        else
+        {
+            <input type="hidden" class="form-control" value="@Model.GetDate" name="GetDate" >
+            <input type="hidden" class="form-control" value="" name="TId" >
+        }
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.EditorFor(x => x.Used, new { @class = "form-check-input", @name = "Used" })
+                <label class="form-check-label" for="exampleCheck1">Использован</label>
+            </div>
+        </div>
+    </div>
+    <input type="submit" class="form-control" value="Изменить" />
+}
+<div>
+    <h3 id="Result"></h3>
+</div>
