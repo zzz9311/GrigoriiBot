@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "SendMessages";
+}
+
+<h2>Рассылка</h2>
+
+@using (Ajax.BeginForm("SendMessages", new AjaxOptions { UpdateTargetId = "Result" }))
+{
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-md-10">
+                <label for="exampleFormControlTextarea1">Текст сообщения</label>
+                <textarea class="form-control" name="message" id="exampleFormControlTextarea1" rows="3"></textarea>
+            </div>
+        </div>
+        <input type="submit" class="form-control" value="Отправить" />
+    </div>
+}
+<div>
+    <h3><p id="Result"></p></h3>
+</div>
+

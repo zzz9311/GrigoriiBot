@@ -1,0 +1,46 @@
+﻿@model GrigoriiBot.BOT.Models.BotUser
+
+@{
+    ViewBag.Title = "EditUser";
+}
+
+<h2>Редактирования пользователя @(Model.Name == null ? "" : Model.Name)</h2>
+<br />
+
+@using (Ajax.BeginForm("EditUser", new AjaxOptions { UpdateTargetId = "Result" }))
+{
+    @Html.AntiForgeryToken();
+
+    <div class="form-horizontal">
+
+        <div class="form-group">
+
+            <div class="col-md-10">
+                <label for="formGroupExampleInput">Имя в телеграме</label>
+                <input type="text" class="form-control" value="@Model.Name" name="Name" placeholder="" readonly>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <label for="formGroupExampleInput">Id в телеграме</label>
+                <input type="text" class="form-control" value="@Model.TId" name="TId" placeholder="" readonly>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <label for="formGroupExampleInput">Дата первого обращения к боту</label>
+                <input type="datetime" class="form-control" value="@Model.FirstDate" name="FirstDate" placeholder="" readonly>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.EditorFor(x => x.Banned, new { @class = "form-check-input", @name = "Banned" })
+                <label class="form-check-label" for="exampleCheck1">Бан</label>
+            </div>
+        </div>
+    </div>
+    <input type="submit" class="form-control" value="Изменить" />
+}
+<div>
+    <h3 id="Result"></h3>
+</div>

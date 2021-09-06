@@ -1,0 +1,33 @@
+﻿@model List<GrigoriiBot.BOT.Models.AccountsModel>
+@{
+    ViewBag.Title = "TakenAccounts";
+}
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Логин</th>
+            <th scope="col">Пароль</th>
+            <th scope="col">Использован</th>
+            <th scope="col">Дата получения</th>
+            <th scope="col">Пользователь</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var el in Model)
+        {
+
+            <tr>
+                <th scope="row">@el.Id</th>
+                <td>@el.Login</td>
+                <td>@el.Password</td>
+                <td>@(el.Used ? "Использован":"Не использован")</td>
+                <td>@(el.GetDate.Year == DateTime.MaxValue.Year ? "":el.GetDate.ToString())</td>
+                <td>@(el.User == null ? "":el.User.TId.ToString())</td>
+            </tr>
+        }
+
+    </tbody>
+</table>
